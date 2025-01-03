@@ -452,6 +452,9 @@ def gen_sh(
     ae_path = resolve_path("models/vae/ae.sft")
     sh = f"""accelerate launch {line_break}
   --mixed_precision bf16 {line_break}
+  --multi_gpu {line_break}
+  --gpu_ids 0,1 {line_break}
+  --num_processes 2 {line_break}
   --num_cpu_threads_per_process 1 {line_break}
   sd-scripts/flux_train_network.py {line_break}
   --pretrained_model_name_or_path {pretrained_model_path} {line_break}
@@ -465,7 +468,7 @@ def gen_sh(
   --seed {seed} {line_break}
   --gradient_checkpointing {line_break}
   --mixed_precision bf16 {line_break}
-  --save_precision bf16 {line_break}
+  --save_precision fp16 {line_break}
   --network_module networks.lora_flux {line_break}
   --network_dim {network_dim} {line_break}
   {optimizer}{sample}
